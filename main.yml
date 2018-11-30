@@ -1,0 +1,16 @@
+---
+
+- hosts: all
+  
+  vars:
+    aws_access_key_id: "{{ lookup('file', 'vars/credentials.yml') }}"
+    aws_secret_access_key: "{{ lookup('file', 'vars/credentials.yml') }}"
+
+  roles:
+    - { role: "{{ playbook_dir }}" }
+
+  environment:
+    aws_access_key_id: "{{ aws_access_key_id }}"
+    aws_secret_access_key: "{{ aws_secret_access_key }}"
+  
+  

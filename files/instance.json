@@ -1,0 +1,50 @@
+ok: [localhost] => {
+    "msg": {
+        "changed": true, 
+        "failed": false, 
+        "instance_ids": [
+            "i-03c737c4b87a2e0ba"
+        ], 
+        "instances": [
+            {
+                "ami_launch_index": "0", 
+                "architecture": "x86_64", 
+                "block_device_mapping": {
+                    "/dev/sda1": {
+                        "delete_on_termination": false, 
+                        "status": "attached", 
+                        "volume_id": "vol-0eb8e63c2e891d90a"
+                    }
+                }, 
+                "dns_name": "ec2-52-59-104-30.eu-central-1.compute.amazonaws.com", 
+                "ebs_optimized": false, 
+                "groups": {
+                    "sg-0160096b7bbf081c2": "sg_elasticsearch"
+                }, 
+                "hypervisor": "xen", 
+                "id": "i-03c737c4b87a2e0ba", 
+                "image_id": "ami-1e038d71", 
+                "instance_type": "t2.micro", 
+                "kernel": null, 
+                "key_name": "aws-frankfurt", 
+                "launch_time": "2018-11-30T20:48:24.000Z", 
+                "placement": "eu-central-1c", 
+                "private_dns_name": "ip-172-31-15-114.eu-central-1.compute.internal", 
+                "private_ip": "172.31.15.114", 
+                "public_dns_name": "ec2-52-59-104-30.eu-central-1.compute.amazonaws.com", 
+                "public_ip": "52.59.104.30", 
+                "ramdisk": null, 
+                "region": "eu-central-1", 
+                "root_device_name": "/dev/sda1", 
+                "root_device_type": "ebs", 
+                "state": "running", 
+                "state_code": 16, 
+                "tags": {}, 
+                "tenancy": "default", 
+                "virtualization_type": "hvm"
+            }
+        ], 
+        "tagged_instances": []
+    }
+}
+
