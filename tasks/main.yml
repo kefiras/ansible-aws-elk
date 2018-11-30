@@ -35,3 +35,11 @@
     hostname: "{{ item.public_ip }}"
     groupname: launched
   with_items: "{{ ec2.instances }}" 
+
+- name: Install elasticsearch
+  hosts: launched
+  gather_facts: True
+  become: True
+  roles:
+    - ansible-role-elasticsearch
+    - ansible-role-java
