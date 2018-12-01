@@ -10,6 +10,9 @@
     name: elasticsearch
     state: "{{ elasticsearch_package_state }}"
 
+- name: Add Elasticsearch plugins.
+  include_tasks: plugins.yml
+
 - name: Configure Elasticsearch.
   template:
     src: elasticsearch.yml.j2
@@ -28,9 +31,9 @@
     state: "{{ elasticsearch_service_state }}"
     enabled: "{{ elasticsearch_service_enabled }}"
 
-- name: Make sure Elasticsearch is running before proceeding.
-  wait_for:
-    host: "{{ elasticsearch_network_host }}"
-    port: "{{ elasticsearch_http_port }}"
-    delay: 3
-    timeout: 300
+#- name: Make sure Elasticsearch is running before proceeding.
+#  wait_for:
+#    host: "{{ elasticsearch_network_host }}"
+#    port: "{{ elasticsearch_http_port }}"
+#    delay: 3
+#    timeout: 300

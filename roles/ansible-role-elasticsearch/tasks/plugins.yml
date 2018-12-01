@@ -1,0 +1,14 @@
+---
+- name: Add Elasticsearch plugins.
+  command: "{{ elasticsearch_dir }}/bin/elasticsearch-plugin install -b {{ item }}"
+  with_items: "{{ elasticsearch_plugins_enabled }}"
+
+- name: debug
+  debug:
+    msg: "{{ aws_access_key_id }}"
+
+- name: Add EC2 key id  to the Elasticsearch keystore.
+  shell: echo {{ aws_access_key_id }} | {{ elasticsearch_dir }}/bin/elasticsearch-keystore add discovery.ec2.access_key -xf
+
+- name: Add EC2 key to the Elasticsearch keystore.
+  shell: echo {{ aws_secret_access_key }} | {{ elasticsearch_dir}}/bin/elasticsearch-keystore add discovery.ec2.secret_key -xf

@@ -2,18 +2,14 @@
 - name: First
   hosts: all 
   connection: local
-  vars: 
-    aws_access_key_id: "{{ lookup('file', 'vars/credentials.yml') }}"
-    aws_secret_access_key: "{{ lookup('file', 'vars/credentials.yml') }}"
-    ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
+  vars_files:
+    - vars/credentials.yml
+    - defaults/main.yml
   environment:
     aws_access_key_id: "{{ aws_access_key_id }}"
     aws_secret_access_key: "{{ aws_secret_access_key }}"
 # tasks file for elasticsearch
   tasks:
-    - name:
-      include_vars: defaults/main.yml
-
     - name: create security group
       ec2_group:
         name: sg_elasticsearch
@@ -24,12 +20,13 @@
           - 80
           - 22
           - 9200
+          - 9300
           cidr_ip: 0.0.0.0/0
           rule_desc: allow ssh, http and es
     
     - name: boot ec2 instance
       ec2:
-        count: 1
+        count: 2
         key_name: "{{ key_name }}"
         region: "{{ region }}"
         instance_type: m5.large
@@ -66,15 +63,17 @@
   hosts: launched
   gather_facts: True
   become: True
-  vars:
-    ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
-    ansible_user: centos
-    ansible_host_key_checking: false
-  pre_tasks:
-  - name:
-    debug:
-      msg: "{{ ansible_distribution }}"
+  vars_files:
+    - vars/credentials.yml
+    - defaults/main.yml
+  tasks:
+    - name: debug
+      debug:
+        msg: "{{ aws_access_key_id }}"
+  
+ # environment:
+ #   aws_access_key_id: "{{ aws_access_key_id }}"
+ #   aws_secret_access_key: "{{ aws_secret_access_key }}"
   roles:
     - ansible-role-elasticsearch
     - ansible-role-java
-  

@@ -68,6 +68,10 @@ http.port: {{ elasticsearch_http_port }}
 # The default list of hosts is ["127.0.0.1", "[::1]"]
 #
 #discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+discovery.zen.hosts_provider: ec2
+discovery.ec2.tag.type: "elasticsearch"
+discovery.ec2.endpoint: "{{ discovery_ec2_endpoint }}"
+
 #
 # Prevent the "split brain" by configuring the majority of nodes (total number of master-eligible nodes / 2 + 1):
 #
