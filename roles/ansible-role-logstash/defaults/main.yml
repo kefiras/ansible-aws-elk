@@ -2,6 +2,7 @@
 logstash_version: '6.x'
 
 logstash_listen_port_beats: 5044
+logstash_listen_http_ip: "{{ ansible_facts['ansible_all_ipv4_addresses'][0] }}"
 
 logstash_elasticsearch_hosts:
   - http://localhost:9200
