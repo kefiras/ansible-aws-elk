@@ -1,5 +1,5 @@
 ---
-- name: First
+- name: Bring up EC2 instances, security groups
   hosts: all 
   connection: local
   vars_files:
@@ -8,9 +8,10 @@
   environment:
     aws_access_key_id: "{{ aws_access_key_id }}"
     aws_secret_access_key: "{{ aws_secret_access_key }}"
+
 # tasks file for elasticsearch
   tasks:
-    - name: create security group
+    - name: Create security groups for all applications
       ec2_group:
         name: "{{ item.sg_name }}"
         description: "{{ item.sg_description }}"
@@ -19,9 +20,8 @@
           ports: "{{ item.sg_ports }}"
           cidr_ip: "{{ item.sg_cidr_ip }}"
       loop: "{{ deployment }}"
-      
     
-    - name: boot ec2 instances
+    - name: Boot ec2 instances
       ec2:
         count: "{{ item.count }}"
         key_name: "{{ key_name }}"
@@ -38,14 +38,11 @@
       loop: "{{ deployment }}"
       register: ec2
 
-    - name: debug
-      debug:
-        msg: "{{ ec2.results }}"
-
     - name: Add new instance to a host group
       add_host:
         hostname: "{{ item.public_ip }}"
         type: "{{ item.type }}"
+        instance_id: "{{ item.instance_id }}"
         groupname: launched
         ansible_host_key_checking: false
         ansible_user: centos
@@ -61,7 +58,29 @@
       vars:
         ansible_user: centos
     
-- name: Install elasticsearch
+- name: Bring up ELB and attach instances to it
+  hosts: launched
+  gather_facts: False
+  vars_files:
+    - vars/credentials.yml
+    - defaults/main.yml
+
+  tasks:
+    - name: Provision ELB
+      local_action: 
+      module: ec2_elb_lb
+        name: Elasticsearch Load Balancer
+        state: present
+        security_group_names: sg_elasticsearch
+        region: "{{ region }}"
+        subnets: "{{ vpc_subnet_id }}"
+        listeners: "{{ elasticsearch_lb }}"
+        instance_ids: "{{ item }}" 
+      with_items: "{{ hostvars[inventory_hostname].instance_id }}"
+      when: "'elasticsearch' in hostvars[inventory_hostname].type"
+      register: elasticsearch_lb
+
+- name: Install elasticsearch, logstash and kibana
   hosts: launched
   gather_facts: True
   become: True
@@ -74,4 +93,5 @@
     - { role: ansible-role-elasticsearch, when: "'elasticsearch' in hostvars[inventory_hostname].type" }
     - { role: ansible-role-logstash, when: "'logstash' in hostvars[inventory_hostname].type " }
     - { role: ansible-role-kibana, when: "'kibana' in hostvars[inventory_hostname].type" }
+
 

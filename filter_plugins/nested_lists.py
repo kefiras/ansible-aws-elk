@@ -19,7 +19,7 @@ class FilterModule(object):
         retval = []
         for external in data:
             for internal in external['instances']:
-                retval.append({'type': internal['tags']['type'], 'public_ip': internal['public_ip']})
+                retval.append({'type': internal['tags']['type'], 'public_ip': internal['public_ip'], 'instance_id': internal['id']})
         
         return retval
     
