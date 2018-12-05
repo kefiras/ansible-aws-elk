@@ -43,6 +43,7 @@
         hostname: "{{ item.public_ip }}"
         type: "{{ item.type }}"
         instance_id: "{{ item.instance_id }}"
+        sg_id: "{{ item.sg_id }}"
         groupname: launched
         ansible_host_key_checking: false
         ansible_user: centos
@@ -68,10 +69,10 @@
   tasks:
     - name: Provision ELB
       local_action: 
-      module: ec2_elb_lb
-        name: Elasticsearch Load Balancer
+        module: ec2_elb_lb
+        name: "elastic"
         state: present
-        security_group_names: sg_elasticsearch
+        security_group_ids: "{{ sg_id }}"
         region: "{{ region }}"
         subnets: "{{ vpc_subnet_id }}"
         listeners: "{{ elasticsearch_lb }}"

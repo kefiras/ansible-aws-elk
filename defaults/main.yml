@@ -1,6 +1,5 @@
 ---
-# defaults file for elasticsearch
-#vpc_id: "vpc-b6758ddf"
+# defaults file 
 vpc_subnet_id: "subnet-0be348ce8d05570fd"
 ami_id: "ami-1e038d71"
 region: "eu-central-1"
@@ -13,14 +12,38 @@ discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"
 
 # EC deployment stuff
 deployment:
-  - { count: 2, tag: 'elasticsearch', sg_name: 'sg_elasticsearch', sg_description: 'rule for ES', sg_proto: 'tcp', sg_ports: [22, 80, 9200, 9300], sg_cidr_ip: '0.0.0.0/0' }
-  - { count: 1, tag: 'logstash', sg_name: 'sg_logstash', sg_description: 'rule for Logstash', sg_proto: 'tcp', sg_ports: [22, 9600, 5044], sg_cidr_ip: '0.0.0.0/0' }
-  - { count: 1, tag: 'kibana', sg_name: 'sg_kibana', sg_description: 'rule for Kibana', sg_proto: 'tcp', sg_ports: [22, 5601], sg_cidr_ip: '0.0.0.0/0' }
+  - count: 2
+    tag: 'elasticsearch'
+    sg_name: 'sg_elasticsearch'
+    sg_description: 'rule for ES'
+    sg_proto: 'tcp'
+    sg_ports: [22, 80, 9200, 9300]
+    sg_cidr_ip: '0.0.0.0/0' 
+  - count: 1
+    tag: 'logstash'
+    sg_name: 'sg_logstash'
+    sg_description: 'rule for Logstash'
+    sg_proto: 'tcp'
+    sg_ports: [22, 9600, 5044]
+    sg_cidr_ip: '0.0.0.0/0' 
+  - count: 1
+    tag: 'kibana'
+    sg_name: 'sg_kibana'
+    sg_description: 'rule for Kibana'
+    sg_proto: 'tcp'
+    sg_ports: [22, 5601]
+    sg_cidr_ip: '0.0.0.0/0'
 
 # LB stuff
 elasticsearch_lb:
-  - { protocol: http, load_balancer_port: 9200, instance_port: 9200 }
+  - protocol: 'http'
+    load_balancer_port: 9200
+    instance_port: 9200 
 logstash_lb:
-  - { protocol: tcp, load_balancer_port: 5044, instance_port: 5044 }
+  - protocol: 'tcp'
+    load_balancer_port: 5044
+    instance_port: 5044 
 kibana_lb:
-  - { protocol: http, load_balancer_port: 80, instance_port: 80 }
+  - protocol: 'http'
+    load_balancer_port: 80
+    instance_port: 80 
