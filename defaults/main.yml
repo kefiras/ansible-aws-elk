@@ -12,7 +12,7 @@ discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"
 
 # EC deployment stuff
 deployment:
-  - count: 2
+  - count: 1
     tag: 'elasticsearch'
     sg_name: 'sg_elasticsearch'
     sg_description: 'rule for ES'
@@ -31,7 +31,7 @@ deployment:
     sg_name: 'sg_kibana'
     sg_description: 'rule for Kibana'
     sg_proto: 'tcp'
-    sg_ports: [22, 5601]
+    sg_ports: [80, 22, 5601]
     sg_cidr_ip: '0.0.0.0/0'
 
 # LB stuff
@@ -46,4 +46,4 @@ logstash_lb:
 kibana_lb:
   - protocol: 'http'
     load_balancer_port: 80
-    instance_port: 80 
+    instance_port: 5601
