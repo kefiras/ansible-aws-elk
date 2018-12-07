@@ -1,0 +1,74 @@
+---
+# tasks file for ec2-loadbalancers
+- name: Provision elasticsearch ELB
+  local_action:
+    module: ec2_elb_lb
+    name: "elasticsearchlb"
+    state: present
+    security_group_ids: "{{ sg_id }}"
+    region: "{{ region }}"
+    subnets: "{{ vpc_subnet_id }}"
+    listeners: "{{ elasticsearch_lb }}"
+    instance_ids: "{{ item }}"
+    tags:
+      type: "elasticsearch"
+  with_items: "{{ hostvars[inventory_hostname].instance_id }}"
+  when: "'elasticsearch' in hostvars[inventory_hostname].type"
+
+- name: Provision logstash ELB
+  local_action:
+    module: ec2_elb_lb
+    name: "logstashlb"
+    state: present
+    security_group_ids: "{{ sg_id }}"
+    region: "{{ region }}"
+    subnets: "{{ vpc_subnet_id }}"
+    listeners: "{{ logstash_lb }}"
+    instance_ids: "{{ item }}"
+    tags:
+      type: logstash
+  with_items: "{{ hostvars[inventory_hostname].instance_id }}"
+  when: "'logstash' in hostvars[inventory_hostname].type"
+
+- name: Provision kibana ELB
+  local_action:
+    module: ec2_elb_lb
+    name: "kibanalb"
+    state: present
+    security_group_ids: "{{ sg_id }}"
+    region: "{{ region }}"
+    subnets: "{{ vpc_subnet_id }}"
+    listeners: "{{ kibana_lb }}"
+    instance_ids: "{{ item }}"
+    tags:
+      type: kibana 
+  with_items: "{{ hostvars[inventory_hostname].instance_id }}"
+  when: "'kibana' in hostvars[inventory_hostname].type"
+
+- name: Gather elb facts
+  local_action:
+    module: ec2_elb_facts
+    region: "{{ region }}"
+  register: elb_facts
+
+- name: Set elasticsearchlb fact
+  set_fact:
+    elasticsearchlb: "{{ item.dns_name }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: item.name == "elasticsearchlb" 
+
+- name: Set logstashlb fact
+  set_fact:
+   logstashlb: "{{ item.dns_name }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: item.name == "logstashlb" 
+
+- name: Set kibanalb fact
+  set_fact:
+    kibanalb: "{{ item.dns_name }}"
+  with_items: "{{ elb_facts.elbs }}"
+  when: item.name == "kibanalb" 
+
+- name: debug elbs
+  debug:
+    msg: "eslb {{ elasticsearchlb }} logelb {{ logstashlb }} kibanalb {{ kibanalb }}"

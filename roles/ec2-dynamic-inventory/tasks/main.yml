@@ -1,0 +1,48 @@
+---
+# tasks file for ec2-dynamic-inventory
+- name: Create security groups for all applications 
+  ec2_group: 
+    name: "{{ item.sg_name }}" 
+    description: "{{ item.sg_description }}" 
+    rules: 
+    - proto: "{{ item.sg_proto }}" 
+      ports: "{{ item.sg_ports }}" 
+      cidr_ip: "{{ item.sg_cidr_ip }}" 
+  loop: "{{ deployment }}" 
+ 
+- name: Boot ec2 instances 
+  ec2: 
+    count: "{{ item.count }}" 
+    key_name: "{{ key_name }}" 
+    region: "{{ region }}" 
+    instance_type: m5.large 
+    image: "{{ ami_id }}" 
+    wait: yes 
+    group: "{{ item.sg_name }}" 
+    vpc_subnet_id: "{{ vpc_subnet_id }}" 
+    assign_public_ip: yes 
+    state: present 
+    instance_tags: 
+      type: "{{ item.tag }}" 
+  loop: "{{ deployment }}" 
+  register: ec2 
+ 
+- name: Add new instance to a host group 
+  add_host: 
+    hostname: "{{ item.public_ip }}" 
+    type: "{{ item.type }}" 
+    instance_id: "{{ item.instance_id }}" 
+    sg_id: "{{ item.sg_id }}" 
+    groupname: launched 
+    ansible_host_key_checking: false 
+    ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem" 
+  loop: "{{ ec2.results| nested_lists }}"  
+ 
+- name: Wait for SSH to come up 
+  delegate_to: "{{ item.public_ip }}" 
+  wait_for_connection: 
+    delay: 30 
+    timeout: 320 
+  with_items: "{{ ec2.results | nested_lists }}" 
+  vars: 
+    ansible_user: centos 
