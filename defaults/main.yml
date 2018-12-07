@@ -17,7 +17,7 @@ deployment:
     sg_name: 'sg_elasticsearch'
     sg_description: 'rule for ES'
     sg_proto: 'tcp'
-    sg_ports: [22, 80, 9200, 9300]
+    sg_ports: [22, 80, 9000, 9100, 9200, 9300]
     sg_cidr_ip: '0.0.0.0/0' 
   - count: 1
     tag: 'logstash'

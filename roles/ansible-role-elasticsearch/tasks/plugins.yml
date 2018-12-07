@@ -8,3 +8,66 @@
 
 - name: Add EC2 key to the Elasticsearch keystore.
   shell: echo {{ aws_secret_access_key }} | {{ elasticsearch_dir}}/bin/elasticsearch-keystore add discovery.ec2.secret_key -xf
+
+- name: Install EPEL
+  yum:
+    name: epel-release
+    state: present
+    update_cache: True
+
+- name: Install packages
+  yum:
+    name:
+      - git
+      - unzip
+      - bzip2
+      - nodejs
+    state: present
+    update_cache: True
+
+- name: Install cerebro
+  block:
+    - unarchive:
+        src: https://github.com/lmenezes/cerebro/releases/download/v0.8.1/cerebro-0.8.1.zip
+        dest: /opt
+        remote_src: yes
+
+    - template:
+        src: cerebro.service
+        dest: /etc/systemd/system/cerebro.service
+        owner: root
+        group: root
+        mode: 0755
+    
+    - service:
+        name: cerebro
+        state: started
+        enabled: true
+  when: "'cerebro' in elasticsearch_3rdparty_plugins_enabled"
+  become: true
+
+- name: Install head
+  block:
+    - unarchive:
+        src: https://github.com/mobz/elasticsearch-head/archive/master.zip
+        dest: /opt
+        remote_src: yes
+
+    - template:
+        src: head.service
+        dest: /etc/systemd/system/head.service
+        owner: root
+        group: root
+        mode: 0755 
+
+    - command: npm install
+      args:
+        chdir: /opt/elasticsearch-head-master
+
+    - service:
+        name: head
+        state: started
+        enabled: true
+  when: "'head' in elasticsearch_3rdparty_plugins_enabled"
+  become: true
+        

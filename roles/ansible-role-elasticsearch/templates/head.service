@@ -1,0 +1,15 @@
+[Unit]
+Description=My Miscellaneous Service
+After=network.target
+
+[Service]
+Type=simple
+# Another Type option: forking
+User=root
+WorkingDirectory=/opt/elasticsearch-head-master
+ExecStart=/bin/npm run start
+Restart=on-failure
+# Other Restart options: or always, on-abort, etc
+
+[Install]
+WantedBy=multi-user.target

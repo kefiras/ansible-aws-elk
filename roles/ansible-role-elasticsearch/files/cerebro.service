@@ -1,0 +1,15 @@
+[Unit]
+Description=My Miscellaneous Service
+After=network.target
+
+[Service]
+Type=simple
+# Another Type option: forking
+User=root
+WorkingDirectory=/opt/cerebro-0.8.1
+ExecStart=/opt/cerebro-0.8.1/bin/cerebro
+Restart=on-failure
+# Other Restart options: or always, on-abort, etc
+
+[Install]
+WantedBy=multi-user.target
