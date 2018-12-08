@@ -8,12 +8,12 @@ Requirements
 
 - boto library
 - AWS secrets set in vars/credentials.yml as per below:
-'''
+```
 aws_access_key_id : "secret-key-id"
 aws_secret_access_key : "secret-access-key"
-'''
+```
 - general variables set in defaults/main.yml
-'''
+```
 vpc_subnet_id: "subnet-XXXX"
 ami_id: "ami-1e038d71"
 region: "eu-central-1"
@@ -22,7 +22,7 @@ key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
 ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
 ansible_user: centos
 discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"
-'''
+```
 
 
 Role Variables
@@ -31,7 +31,7 @@ Role Variables
 Main variables are set in defaults/main.yml. 
 
 EC instances and loadbalancers details as per below:
-'''
+```
 # EC deployment stuff
 deployment:
   - count: 2
@@ -69,7 +69,7 @@ kibana_lb:
   - protocol: 'http'
     load_balancer_port: 80
     instance_port: 5601
-'''
+```
 
 Dependencies
 ------------
