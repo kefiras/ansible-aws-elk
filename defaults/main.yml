@@ -7,7 +7,8 @@ key_name: "aws-frankfurt"
 key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
 ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
 ansible_user: centos
-ansible_host_key_checking: false
+#ansible_host_key_checking: false
+#host_key_checking: False
 discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"
 
 # EC deployment stuff
@@ -19,14 +20,14 @@ deployment:
     sg_proto: 'tcp'
     sg_ports: [22, 80, 9000, 9100, 9200, 9300]
     sg_cidr_ip: '0.0.0.0/0' 
-  - count: 1
+  - count: 0
     tag: 'logstash'
     sg_name: 'sg_logstash'
     sg_description: 'rule for Logstash'
     sg_proto: 'tcp'
     sg_ports: [22, 9600, 5044]
     sg_cidr_ip: '0.0.0.0/0' 
-  - count: 1
+  - count: 0
     tag: 'kibana'
     sg_name: 'sg_kibana'
     sg_description: 'rule for Kibana'

@@ -1,12 +1,12 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Ansible role that spins up multiple instances of Elasticsearch, Logstash and Kibana. It build Elasticsearch cluster automatically based on EC2 tags. It spins up a loadbalancer by default and install Elasticsearch plugins: cerebro, head and kopf.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- boto library
 
 Role Variables
 --------------

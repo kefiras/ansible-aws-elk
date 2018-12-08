@@ -1,0 +1,17 @@
+[Unit]
+Description=My Miscellaneous Service
+After=network.target docker.service
+
+[Service]
+Type=simple
+# Another Type option: forking
+User=root
+WorkingDirectory=/opt/
+ExecStartPre=/bin/bash -c "docker run --name kopf --rm -d -p 80:80 -e KOPF_ES_SERVERS={{ elasticsearchlb }}:9200 -e KOPF_SERVER_NAME={{ elasticsearchlb }} docker.io/lmenezes/elasticsearch-kopf"
+ExecStart=/bin/docker start -a kopf
+ExecStop=/bin/docker stop -t 10 kopf
+Restart=on-failure
+# Other Restart options: or always, on-abort, etc
+
+[Install]
+WantedBy=multi-user.target

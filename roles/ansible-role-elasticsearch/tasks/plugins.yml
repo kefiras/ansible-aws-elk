@@ -70,4 +70,30 @@
         enabled: true
   when: "'head' in elasticsearch_3rdparty_plugins_enabled"
   become: true
+
+- name: Install kopf
+  block:
+    - yum:
+        name: docker
+        state: present
+        update_cache: True
+
+    - service:
+        name: docker
+        state: started
+        enabled: True
+
+    - template:
+        src: kopf.service
+        dest: /etc/systemd/system/kopf.service
+        owner: root
+        group: root
+        mode: 0755
+
+    - service:
+        name: kopf
+        state: started
+        enabled: true
+  when: "'kopf' in elasticsearch_3rdparty_plugins_enabled"
+  become: true
         

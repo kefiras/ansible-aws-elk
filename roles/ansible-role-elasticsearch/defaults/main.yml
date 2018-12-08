@@ -14,5 +14,6 @@ elasticsearch_plugins_enabled:
 elasticsearch_3rdparty_plugins_enabled:
   - cerebro
   - head
+  - kopf
 
 elasticsearch_dir: "/usr/share/elasticsearch"
