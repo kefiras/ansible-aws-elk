@@ -7,6 +7,8 @@
     - defaults/main.yml
   roles:
     - ec2-dynamic-inventory
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: False
 
 - name: Bring up ELB and attach instances to it
   hosts: launched

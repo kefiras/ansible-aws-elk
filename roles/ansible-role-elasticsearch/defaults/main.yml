@@ -11,4 +11,9 @@ elasticsearch_http_port: 9200
 elasticsearch_plugins_enabled:
   - discovery-ec2
 
+elasticsearch_3rdparty_plugins_enabled:
+  - cerebro
+  - head
+  - kopf
+
 elasticsearch_dir: "/usr/share/elasticsearch"
