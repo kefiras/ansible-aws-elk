@@ -18,8 +18,8 @@ vpc_subnet_id: "subnet-XXXX"
 ami_id: "ami-1e038d71"
 region: "eu-central-1"
 key_name: "aws-frankfurt"
-key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
-ansible_ssh_private_key_file: "/Users/wojtas/.ssh/aws-frankfurt.pem"
+key_file: "/PATH/TO/YOUR/KEY.pem"
+ansible_ssh_private_key_file: "/PATH/TO/YOUR/KEY.pem"
 ansible_user: centos
 discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"
 ```
