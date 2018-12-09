@@ -35,14 +35,40 @@ deployment:
 
 # LB stuff
 elasticsearch_lb:
-  - protocol: 'http'
-    load_balancer_port: 9200
-    instance_port: 9200 
+  listeners:
+    - protocol: 'http'
+      load_balancer_port: 9200
+      instance_port: 9200 
+  health_check:
+    ping_protocol: 'http'
+    ping_port: 9200
+    ping_path: '/'
+    response_timeout: 5
+    interval: 10
+    unhealthy_threshold: 2
+    healthy_threshold: 2
 logstash_lb:
-  - protocol: 'tcp'
-    load_balancer_port: 5044
-    instance_port: 5044 
+  listeners:
+    - protocol: 'tcp'
+      load_balancer_port: 5044
+      instance_port: 5044 
+  health_check:
+    ping_protocol: 'tcp'
+    ping_port: 5044
+    response_timeout: 5
+    interval: 10
+    unhealthy_threshold: 2
+    healthy_threshold: 2
 kibana_lb:
-  - protocol: 'http'
-    load_balancer_port: 80
-    instance_port: 5601
+  listeners:
+    - protocol: 'http'
+      load_balancer_port: 5601
+      instance_port: 5601
+  health_check:
+    ping_protocol: 'http'
+    ping_port: 5601
+    ping_path: '/app/kibana'
+    response_timeout: 5
+    interval: 10
+    unhealthy_threshold: 2
+    healthy_threshold: 2

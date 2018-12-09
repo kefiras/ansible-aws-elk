@@ -1,3 +1,4 @@
 vars/credentials.yml
 *.retry
 filter_plugins/*.pyc
+filebeat.yml

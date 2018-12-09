@@ -22,6 +22,7 @@
       - unzip
       - bzip2
       - nodejs
+      - python-docker-py
     state: present
     update_cache: True
 
@@ -77,11 +78,21 @@
         name: docker
         state: present
         update_cache: True
-
+ 
+    - template: # Add custom docker network so it's not chosen as a publisher by elasticsearch
+        src: daemon.json
+        dest: /etc/docker/daemon.json
+        owner: root
+        group: root
+        mode: 0755
+  
     - service:
         name: docker
         state: started
         enabled: True
+
+    - docker_image:
+        name: docker.io/lmenezes/elasticsearch-kopf
 
     - template:
         src: kopf.service

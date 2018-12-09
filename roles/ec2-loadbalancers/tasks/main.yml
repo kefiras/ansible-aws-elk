@@ -8,7 +8,8 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
-    listeners: "{{ elasticsearch_lb }}"
+    listeners: "{{ elasticsearch_lb.listeners }}"
+    health_check: "{{ elasticsearch_lb.health_check }}"
     instance_ids: "{{ item }}"
     tags:
       type: "elasticsearch"
@@ -23,7 +24,8 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
-    listeners: "{{ logstash_lb }}"
+    listeners: "{{ logstash_lb.listeners }}"
+    health_check: "{{ logstash_lb.health_check }}"
     instance_ids: "{{ item }}"
     tags:
       type: logstash
@@ -38,7 +40,8 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
-    listeners: "{{ kibana_lb }}"
+    listeners: "{{ kibana_lb.listeners }}"
+    health_check: "{{ kibana_lb.health_check }}"
     instance_ids: "{{ item }}"
     tags:
       type: kibana 
