@@ -2,6 +2,10 @@ Ansible-AWS-ELK
 =========
 
 Ansible role that spins up multiple instances of Elasticsearch, Logstash and Kibana. It build Elasticsearch cluster automatically based on EC2 tags. It spins up loadbalancers by default for each component and install Elasticsearch plugins: cerebro, head and kopf.
+By default plugins are enabled on elasticsearch instances on below ports:
+- cerebro TCP/9000
+- head TCP/9100
+- kopf TCP/80
 
 Requirements
 ------------
