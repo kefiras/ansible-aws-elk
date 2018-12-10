@@ -81,9 +81,9 @@ Dependencies
 
 Example Playbook
 ----------------
-
+```
 ansible-playbook -i localhost, main.yml --ask-vault
-
+```
 License
 -------
 
