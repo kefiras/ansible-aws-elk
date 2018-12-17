@@ -4,6 +4,8 @@
   local_action:
     module: ec2_elb_lb
     name: "elasticsearchlb"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     state: present
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
@@ -19,6 +21,8 @@
 - name: Provision logstash ELB
   local_action:
     module: ec2_elb_lb
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     name: "logstashlb"
     state: present
     security_group_ids: "{{ sg_id }}"
@@ -36,6 +40,8 @@
   local_action:
     module: ec2_elb_lb
     name: "kibanalb"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     state: present
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
