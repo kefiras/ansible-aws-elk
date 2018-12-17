@@ -11,6 +11,7 @@ Requirements
 ------------
 
 - boto library
+- boto3 library
 - AWS secrets set in vars/credentials.yml as per below:
 ```
 aws_access_key_id : "secret-key-id"
