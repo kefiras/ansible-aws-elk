@@ -11,6 +11,7 @@ Requirements
 ------------
 
 - boto library
+- boto3 library
 - AWS secrets set in vars/credentials.yml as per below:
 ```
 aws_access_key_id : "secret-key-id"
@@ -22,7 +23,6 @@ vpc_subnet_id: "subnet-XXXX"
 ami_id: "ami-1e038d71"
 region: "eu-central-1"
 key_name: "aws-frankfurt"
-key_file: "/PATH/TO/YOUR/KEY.pem"
 ansible_ssh_private_key_file: "/PATH/TO/YOUR/KEY.pem"
 ansible_user: centos
 discovery_ec2_endpoint: "ec2.eu-central-1.amazonaws.com"

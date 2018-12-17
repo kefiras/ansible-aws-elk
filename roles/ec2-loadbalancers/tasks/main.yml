@@ -4,6 +4,8 @@
   local_action:
     module: ec2_elb_lb
     name: "elasticsearchlb"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     state: present
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
@@ -19,6 +21,8 @@
 - name: Provision logstash ELB
   local_action:
     module: ec2_elb_lb
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     name: "logstashlb"
     state: present
     security_group_ids: "{{ sg_id }}"
@@ -36,6 +40,8 @@
   local_action:
     module: ec2_elb_lb
     name: "kibanalb"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     state: present
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
@@ -48,10 +54,16 @@
   with_items: "{{ hostvars[inventory_hostname].instance_id }}"
   when: "'kibana' in hostvars[inventory_hostname].type"
 
+- name: Pause because of AWS throttling
+  pause:
+    seconds: 3
+
 - name: Gather elb facts
   local_action:
     module: ec2_elb_facts
     region: "{{ region }}"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
   register: elb_facts
 
 - name: Set elasticsearchlb fact
@@ -75,3 +87,7 @@
 - name: debug elbs
   debug:
     msg: "eslb {{ elasticsearchlb }} logelb {{ logstashlb }} kibanalb {{ kibanalb }}"
+
+- name: Pause
+  pause:
+    seconds: 3
