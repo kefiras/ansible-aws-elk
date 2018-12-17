@@ -87,3 +87,7 @@
 - name: debug elbs
   debug:
     msg: "eslb {{ elasticsearchlb }} logelb {{ logstashlb }} kibanalb {{ kibanalb }}"
+
+- name: Pause
+  pause:
+    seconds: 3
