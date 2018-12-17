@@ -4,6 +4,7 @@
   ec2_group: 
     name: "{{ item.sg_name }}" 
     description: "{{ item.sg_description }}" 
+    region: "{{ region }}"
     rules: 
     - proto: "{{ item.sg_proto }}" 
       ports: "{{ item.sg_ports }}" 
