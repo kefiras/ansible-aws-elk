@@ -58,6 +58,8 @@
   local_action:
     module: ec2_elb_facts
     region: "{{ region }}"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
   register: elb_facts
 
 - name: Set elasticsearchlb fact
