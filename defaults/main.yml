@@ -61,7 +61,7 @@ logstash_lb:
 kibana_lb:
   listeners:
     - protocol: 'http'
-      load_balancer_port: 5601
+      load_balancer_port: 80
       instance_port: 5601
   health_check:
     ping_protocol: 'http'

@@ -54,6 +54,10 @@
   with_items: "{{ hostvars[inventory_hostname].instance_id }}"
   when: "'kibana' in hostvars[inventory_hostname].type"
 
+- name: Pause because of AWS throttling
+  pause:
+    seconds: 3
+
 - name: Gather elb facts
   local_action:
     module: ec2_elb_facts
