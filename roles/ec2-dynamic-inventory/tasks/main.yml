@@ -5,6 +5,8 @@
     name: "{{ item.sg_name }}" 
     description: "{{ item.sg_description }}" 
     region: "{{ region }}"
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     rules: 
     - proto: "{{ item.sg_proto }}" 
       ports: "{{ item.sg_ports }}" 
