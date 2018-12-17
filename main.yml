@@ -26,6 +26,8 @@
   vars_files:
     - vars/credentials.yml
     - defaults/main.yml
+  vars:
+    - ansible_user: "{{ _ansible_user }}"
 
   roles:
     - ansible-role-java
