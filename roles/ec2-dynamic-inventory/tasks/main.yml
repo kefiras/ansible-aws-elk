@@ -17,6 +17,8 @@
   ec2: 
     count: "{{ item.count }}" 
     key_name: "{{ key_name }}" 
+    aws_access_key: "{{ aws_access_key_id }}"
+    aws_secret_key: "{{ aws_secret_access_key }}"
     region: "{{ region }}" 
     instance_type: m5.large 
     image: "{{ ami_id }}" 
