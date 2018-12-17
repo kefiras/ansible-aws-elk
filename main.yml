@@ -27,7 +27,8 @@
     - vars/credentials.yml
     - defaults/main.yml
   vars:
-    - ansible_user: "{{ _ansible_user }}"
+    ansible_user: "{{ _ansible_user }}"
+    ansible_ssh_private_key_file: "{{ _ansible_ssh_private_key_file }}"
 
   roles:
     - ansible-role-java
