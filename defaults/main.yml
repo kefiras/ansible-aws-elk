@@ -1,6 +1,7 @@
 ---
 # defaults file 
 vpc_subnet_id: "subnet-0be348ce8d05570fd"
+vpc_id: "vpc-xxxxxxxxxxxx"
 ami_id: "ami-1e038d71"
 region: "eu-central-1"
 key_name: "aws-frankfurt"
