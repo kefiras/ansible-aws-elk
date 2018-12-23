@@ -26,16 +26,20 @@
     wait: yes 
     group: "{{ item.sg_name }}" 
     vpc_subnet_id: "{{ vpc_subnet_id }}" 
-    assign_public_ip: yes 
+    assign_public_ip: no
     state: present 
     instance_tags: 
       type: "{{ item.tag }}" 
   loop: "{{ deployment }}" 
   register: ec2 
+
+- name: Print ec2
+  debug:
+    msg: "{{ ec2 }}"
  
 - name: Add new instance to a host group 
   add_host: 
-    hostname: "{{ item.public_ip }}" 
+    hostname: "{{ item.private_ip }}" 
     type: "{{ item.type }}" 
     instance_id: "{{ item.instance_id }}" 
     sg_id: "{{ item.sg_id }}" 
@@ -44,7 +48,7 @@
   loop: "{{ ec2.results| nested_lists }}"  
  
 - name: Wait for SSH to come up 
-  delegate_to: "{{ item.public_ip }}" 
+  delegate_to: "{{ item.private_ip }}" 
   wait_for_connection: 
     delay: 15
     timeout: 150

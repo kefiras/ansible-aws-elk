@@ -10,6 +10,7 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
+    scheme: internal
     listeners: "{{ elasticsearch_lb.listeners }}"
     health_check: "{{ elasticsearch_lb.health_check }}"
     instance_ids: "{{ item }}"
@@ -28,6 +29,7 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
+    scheme: internal
     listeners: "{{ logstash_lb.listeners }}"
     health_check: "{{ logstash_lb.health_check }}"
     instance_ids: "{{ item }}"
@@ -46,6 +48,7 @@
     security_group_ids: "{{ sg_id }}"
     region: "{{ region }}"
     subnets: "{{ vpc_subnet_id }}"
+    scheme: internal
     listeners: "{{ kibana_lb.listeners }}"
     health_check: "{{ kibana_lb.health_check }}"
     instance_ids: "{{ item }}"
@@ -83,10 +86,6 @@
     kibanalb: "{{ item.dns_name }}"
   with_items: "{{ elb_facts.elbs }}"
   when: item.name == "kibanalb" 
-
-- name: debug elbs
-  debug:
-    msg: "eslb {{ elasticsearchlb }} logelb {{ logstashlb }} kibanalb {{ kibanalb }}"
 
 - name: Pause
   pause:
