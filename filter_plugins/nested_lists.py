@@ -11,7 +11,7 @@ class FilterModule(object):
     def nested_lists(self, data):
         """
         It takes the input list and returns a list pairs:
-        [{type, public_ip}]
+        [{type, private_ip}]
         """
         if not isinstance(data, list):
             raise errors.AnsibleFilterError("A list is expected")
@@ -19,7 +19,7 @@ class FilterModule(object):
         retval = []
         for external in data:
             for internal in external['instances']:
-                retval.append({'type': internal['tags']['type'], 'public_ip': internal['public_ip'], 'instance_id': internal['id'], 'sg_id': internal['groups'].keys()[0]})
+                retval.append({'type': internal['tags']['type'], 'private_ip': internal['private_ip'], 'instance_id': internal['id'], 'sg_id': internal['groups'].keys()[0]})
         
         return retval
     
